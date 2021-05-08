@@ -65,7 +65,10 @@ const Migration = () => {
               </Text>
             </CardHeader>
             <CardBody>
-              <Text mb="24px">All farms you can add to now are using the updated system by default. Simple!</Text>
+              <Text mb="24px">
+                If you are able to stake in a farm with your new LP tokens, that means it’s the updated type. Stake as
+                usual and you’re done!
+              </Text>
               <Button as={Link} external href="https://pancakeswap.finance/farms" style={{ width: '100%' }}>
                 Go to farms
               </Button>

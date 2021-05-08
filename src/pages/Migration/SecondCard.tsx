@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Card, CardHeader, CardBody, Text } from '@pancakeswap-libs/uikit'
+import { Card, CardHeader, CardBody, Text, Box, Button, Flex, ArrowDownIcon, Link } from '@pancakeswap-libs/uikit'
 import { Pair } from '@pancakeswap-libs/sdk'
 import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
 import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
@@ -7,6 +7,12 @@ import { StyledInternalLink } from 'components/Shared'
 import { useActiveWeb3React } from 'hooks'
 import { usePairs } from 'data/Reserves'
 import FullPositionCard from 'components/PositionCard'
+
+const ArrowSeparator = () => (
+  <Flex justifyContent="center" my="24px">
+    <ArrowDownIcon color="textSubtle" width="24px" />
+  </Flex>
+)
 
 const SecondCard = () => {
   const { account } = useActiveWeb3React()
@@ -45,7 +51,7 @@ const SecondCard = () => {
       <CardHeader>
         <Text bold>Remove Liquidity</Text>
         <Text small color="textSubtle">
-          Unstake your legacy LP tokens from the liquidity pools
+          Unstake your old LP tokens from the old liquidity pools
         </Text>
       </CardHeader>
       <CardBody>
@@ -57,8 +63,10 @@ const SecondCard = () => {
             <CardBody>
               {allV2PairsWithLiquidity?.length > 0 ? (
                 <>
-                  {allV2PairsWithLiquidity.map((v2Pair) => (
-                    <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                  {allV2PairsWithLiquidity.map((v2Pair, index) => (
+                    <Box mb={index < allV2PairsWithLiquidity.length - 1 ? '16px' : 0}>
+                      <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                    </Box>
                   ))}
                 </>
               ) : (
@@ -66,7 +74,7 @@ const SecondCard = () => {
                   No liquidity found.
                 </Text>
               )}
-              <Text>
+              <Text mt="16px" textAlign="center">
                 Don&apos;t see a pool you joined?{' '}
                 <StyledInternalLink id="import-pool-link" to="/find">
                   Import it
@@ -74,6 +82,19 @@ const SecondCard = () => {
               </Text>
             </CardBody>
           )}
+        </Card>
+        <ArrowSeparator />
+        <Text bold>Discontinued V2 LP</Text>
+        <Card>
+          <CardBody>
+            <Text textAlign="center" mb="16px">
+              If you added liquidity to V2 LPs during the migration attempt on April 23, you need to unstake and remove
+              liquidity.
+            </Text>
+            <Button as={Link} external href="https://hiccup.pancakeswap.finance/#/pool" style={{ width: '100%' }}>
+              Remove
+            </Button>
+          </CardBody>
         </Card>
       </CardBody>
     </Card>
